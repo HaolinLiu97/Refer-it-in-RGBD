@@ -13,5 +13,5 @@ We evaluate the proposed method by comparing to the state-of-the-art methods on 
 
 
 <div style="text-align: center">
-<img src="docs/teaser.png" width="1080"/><br>
+<img src="docs/teaser.png" width="540"/><br>
 </div>
