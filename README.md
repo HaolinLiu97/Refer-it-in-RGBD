@@ -11,7 +11,8 @@ In contrast to previous works that directly generate object proposals for ground
 Our approach first fuses the language and the visual features at the bottom level to generate a heatmap that coarsely localizes the relevant regions in the RGB-D image. Then our approach adopts an adaptive search based on the heatmap and performs the object-level matching with another visio-linguistic fusion to finally ground the referred object. 
 We evaluate the proposed method by comparing to the state-of-the-art methods on both the RGB-D images extracted from the ScanRefer dataset and our newly collected SUN-Refer dataset. Experiments show that our method outperforms the previous methods by a large margin (by 11.1% and 11.2%  Acc@0.5) on both datasets.
 
-
+<center>
 <div style="text-align: center">
-<img src="docs/teaser.png" width="540"/><br>
+<img src="docs/teaser.png" width="480"/><br>
 </div>
+</center>
