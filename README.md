@@ -3,4 +3,4 @@ Repository of our paper 'Refer-it-in-RGBD: A Bottom-up Approach for 3D Visual Gr
 <br>
 Paper - <a href="https://arxiv.org/pdf/2103.07894" target="__blank">ArXiv - pdf</a> (<a href="https://arxiv.org/abs/2103.07894" target="__blank">abs</a>) 
 <br>
-Paper, codes, and the SUNREFER dataset will be released soon
+codes, and the SUNREFER dataset will be released soon
