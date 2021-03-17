@@ -5,6 +5,7 @@ This is the repository of our paper 'Refer-it-in-RGBD: A Bottom-up Approach for 
 Paper - <a href="https://arxiv.org/pdf/2103.07894" target="__blank">ArXiv - pdf</a> (<a href="https://arxiv.org/abs/2103.07894" target="__blank">abs</a>) 
 <br>
 Project page: https://unclemedm.github.io/Refer-it-in-RGBD/ <br>
+
 ### Introduction
 We present a novel task of 3D visual grounding in <b>single-view RGB-D images</b> where the referred objects are often only <b>partially scanned</b>. 
 In contrast to previous works that directly generate object proposals for grounding in the 3D scenes, we propose a bottom-up approach to gradually aggregate information, effectively addressing the challenge posed by the partial scans. 
