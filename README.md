@@ -12,6 +12,6 @@ Our approach first fuses the language and the visual features at the bottom leve
 We evaluate the proposed method by comparing to the state-of-the-art methods on both the RGB-D images extracted from the ScanRefer dataset and our newly collected SUN-Refer dataset. Experiments show that our method outperforms the previous methods by a large margin (by 11.1% and 11.2%  Acc@0.5) on both datasets.
 
 ### Dataset
-<a href="https://unclemedm.github.io/Refer-it-in-RGBD/SUNRGBD_REFER_all_final_process3.16.json">Download SUNREFER dataset</a><br>
+<a href="https://unclemedm.github.io/Refer-it-in-RGBD/SUNREFER_dataset.json">Download SUNREFER dataset</a><br>
 SUNREFER dataset contains 38,495 referring expression corresponding to 7,699 objects from SUNRGBD dataset. Here is one example from SUNREFER dataset:
 <p align="center"><img src="docs/dataset_example.png" width="400px"/></p>
