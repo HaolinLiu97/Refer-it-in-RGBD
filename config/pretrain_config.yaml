@@ -1,0 +1,38 @@
+resume: False
+weight: ['checkpoints/exp_name/model_best.pth']
+isTrain: True
+device:
+  use_gpu: True
+  gpu_ids: '3'
+  num_workers: 2
+data:
+  dataset: sunrefer
+  use_aug: True
+  num_points: 20000
+  use_refine: True
+  voxel_size: 0.05
+  num_sample: -1 #if -1, use all sample, if >0, use limited number of sample
+method:
+  t: 1
+  alpha: 0.5
+optimizer:
+  method: Adam
+  lr: 1e-3
+  beta1: 0.9
+  beta2: 0.999
+visualization:
+  model_vis_interval: 10000
+other:
+  clean_cache_interval: 100
+loss:
+  use_smooth_l1: True
+  use_detection_loss: True
+  w_conf: 2
+  w_response: 1
+  w_intact: 1
+  w_contain: 1
+  w_detection: 0.5
+  w_heatmap: 0.5
+  w_reference: 0.1
+
+
