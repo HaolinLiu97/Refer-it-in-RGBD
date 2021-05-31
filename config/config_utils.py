@@ -39,12 +39,6 @@ class CONFIG(object):
         # update save_path to config file
         self.update_config(log={'path': self._save_path})
 
-        # update visualization path
-        vis_path = os.path.join(self._save_path, self.config['log']['vis_path'])
-        if not os.path.exists(vis_path):
-            os.mkdir(vis_path)
-        self.update_config(log={'vis_path': vis_path})
-
         # initiate device environments
         os.environ["CUDA_VISIBLE_DEVICES"] = self.config['device']['gpu_ids']
 
@@ -58,7 +52,7 @@ class CONFIG(object):
 
     def load_logger(self):
         # set file handler
-        save_path = os.path.join(self.config['log']['path'], datetime.now().isoformat())
+        save_path = os.path.join(self.config['other']['model_save_dir'], self.config['exp_name'])
         if not os.path.exists(save_path):
             os.makedirs(save_path)
 

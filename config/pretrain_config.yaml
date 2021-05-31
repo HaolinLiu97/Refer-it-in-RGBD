@@ -1,18 +1,29 @@
 resume: False
 weight: ['checkpoints/exp_name/model_best.pth']
+method: voxel_match_pretrain
+exp_name: voxel_match_pretrain
 isTrain: True
 device:
   use_gpu: True
   gpu_ids: '3'
-  num_workers: 2
 data:
-  dataset: sunrefer
+  dataset: scanrefer-singleRGBD
+  sigma: 0.5
+  debug: False
+  use_color : True
   use_aug: True
   num_points: 20000
   use_refine: True
   voxel_size: 0.05
   num_sample: -1 #if -1, use all sample, if >0, use limited number of sample
-method:
+  val_path: ./data/scannet_singleRGBD/SRGBD_filtered_val.json
+  train_path: ./data/scannet_singleRGBD/SRGBD_filtered_train.json
+  data_path: ./data/scannet_singleRGBD
+  MAX_DES_LEN: 117
+  MAX_NUM_OBJ: 128
+  batch_size: 16
+  num_workers: 4
+model:
   t: 1
   alpha: 0.5
 optimizer:
@@ -20,19 +31,14 @@ optimizer:
   lr: 1e-3
   beta1: 0.9
   beta2: 0.999
+scheduler:
+  gamma: 0.5
 visualization:
   model_vis_interval: 10000
 other:
   clean_cache_interval: 100
-loss:
-  use_smooth_l1: True
-  use_detection_loss: True
-  w_conf: 2
-  w_response: 1
-  w_intact: 1
-  w_contain: 1
-  w_detection: 0.5
-  w_heatmap: 0.5
-  w_reference: 0.1
+  nepoch: 10
+  model_save_interval: 1
+  model_save_dir: ./checkpoints
 
 
