@@ -1,4 +1,6 @@
 import torch.nn as nn
+import torch.nn.functional as F
+
 class res_mlp_block(nn.Module):
     def __init__(self,num_channel,use_2d=False):
         super().__init__()

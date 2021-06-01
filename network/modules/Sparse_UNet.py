@@ -95,7 +95,6 @@ class Voxel_Match(nn.Module):
 
     def forward(self,input_dict):
         sinput=input_dict["sinput"]
-        positive_mask=input_dict["positive_mask"]
         #reverse_mapping = input_dict["reverse_mapping"]
         #bcoords=input_dict["discrete_coords"]
 
@@ -112,27 +111,9 @@ class Voxel_Match(nn.Module):
         split_list=[self.num_points for i in range(batch_size)]
         batch_heatmap=torch.split(gather_heatmap,split_list)
         batch_heatmap=torch.stack(batch_heatmap).transpose(1,2)
-        target=input_dict["atten_label"].unsqueeze(1)
 
         output_dict={
-            "atten":batch_heatmap,
+            "pcd_heatmap":batch_heatmap.squeeze(1),
             "lang_feat":lang_feat,
         }
-        if self.use_loss:
-            loss=self.compute_loss(batch_heatmap,target,positive_mask)
-            output_dict["loss"]=loss
         return output_dict
-
-    def compute_loss(self,output,label,positive_mask):
-        '''
-            loss is computed for label>0.2 and label<0.2 respectively
-            for label balancing
-        '''
-        label=label*positive_mask[:,None,None]
-        positive_ind=torch.where(label>0.2)
-        positive_loss=self.criterion(output[positive_ind[0],0,positive_ind[2]],label[positive_ind[0],0,positive_ind[2]])
-        negative_ind=torch.where(label<=0.2)
-        negative_loss=self.criterion(output[negative_ind[0],0,negative_ind[2]],label[negative_ind[0],0,negative_ind[2]])
-        loss=positive_loss+negative_loss
-        loss=loss/2
-        return loss
