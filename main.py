@@ -3,8 +3,8 @@ from config.config_utils import CONFIG
 
 def parse_args():
     '''PARAMETERS'''
-    parser = argparse.ArgumentParser('Total 3D Understanding.')
-    parser.add_argument('config', type=str, default='config/pretrian_config.yaml',
+    parser = argparse.ArgumentParser('Refer-it-in-RGBD training')
+    parser.add_argument('--config', type=str, default='config/pretrian_config.yaml',
                         help='configure file for training or testing.')
     parser.add_argument('--mode', type=str, default='train', help='train, test or demo.')
     return parser.parse_args()
@@ -17,7 +17,6 @@ if __name__=="__main__":
     cfg.log_string('Loading configuration')
     cfg.log_string(cfg.config)
     cfg.write_config()
-
     '''
     Run
     '''
