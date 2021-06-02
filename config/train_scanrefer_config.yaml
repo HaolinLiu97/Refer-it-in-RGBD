@@ -1,8 +1,8 @@
 resume: False
-weight: ['checkpoints/exp_name/model_best.pth']
+weight: 'checkpoints/refer-it-in-RGBD/model_latest.pth'
 hm_model_resume: checkpoints/voxel_match_pretrain/model_best.pth
 method: refer
-exp_name: refer-it-in-RGBD
+exp_name: refer-it-in-RGBD-lr1e-3
 isTrain: True
 device:
   use_gpu: True
@@ -34,11 +34,11 @@ model:
 optimizer:
   method: Adam
   lr_ref: 1e-3
-  lr_hm: 1e-4
+  lr_hm: 1e-3
   beta1: 0.9
   beta2: 0.999
 scheduler:
-  gamma: 0.5
+  gamma: 0.2
 visualization:
   model_vis_interval: 10000
 other:
