@@ -135,8 +135,12 @@ def voxel_match_trainer(cfg,model,loss_func,optimizer,scheduler,train_loader,tes
     return
 
 def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loader,test_loader,device,checkpoint):
+    config = cfg.config
+    if config["resume"]==True:
+        print("loading checkpoint from",config["weight"])
+        checkpoint.load(config["weight"])
+    start_epoch = scheduler_list[0].last_epoch
     start_t=time.time()
-    config=cfg.config
     log_dir = os.path.join(config['other']["model_save_dir"], config['exp_name'])
     if os.path.exists(log_dir) == False:
         os.makedirs(log_dir)
@@ -145,10 +149,9 @@ def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loa
 
     max_Acc50=0
     iter=0
-    torch.autograd.set_detect_anomaly(True)
     Acc50_total = 0
     Acc25_total = 0
-    for e in range(config['other']['nepoch']):
+    for e in range(start_epoch,config['other']['nepoch']):
         print("Switch Phase to Train")
         acc_50_avg=0
         for model in model_list:
@@ -160,13 +163,13 @@ def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loa
                 if (not isinstance(data_dict[key],list)) and key!="vox_feats" and key!="vox_coords":
                     data_dict[key]=data_dict[key].cuda()
             # print(data_dict["size"])
-            unique_feats = data_dict["vox_feats"].float().cuda()
-            bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"]).float().cuda()
+            unique_feats = data_dict["vox_feats"].float()
+            bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"]).float()
             sinput = ME.SparseTensor(
                 unique_feats,
                 bcoords,
                 quantization_mode=ME.SparseTensorQuantizationMode.UNWEIGHTED_AVERAGE,
-                # device=device
+                device=device
             )
             data_dict["sinput"] = sinput
             hm_ret_dict = model_list[0](data_dict)
@@ -203,6 +206,7 @@ def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loa
             '''
             visualize training data into pickle form
             '''
+            '''
             if iter % config['visualization']["model_vis_interval"] == 0:
                 feats_batch = data_dict["vox_feats"].detach().cpu().numpy()  # color
                 bcoords = bcoords.detach().cpu().numpy()
@@ -226,6 +230,7 @@ def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loa
                 save_path = os.path.join(log_dir, save_filename)
                 with open(save_path, "wb") as f:
                     p.dump(voxel_dict, f)
+            '''
             if iter % config['other']['clean_cache_interval'] == 0:
                 torch.cuda.empty_cache()
 
@@ -257,16 +262,14 @@ def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loa
                     if (not isinstance(data_dict[key], list)) and key!="vox_feats" and key!="vox_coords":
                         data_dict[key] = data_dict[key].cuda()
                 # print(data_dict["size"])
-                unique_feats = data_dict["vox_feats"].float().cuda()
-                bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"]).float().cuda()
+                unique_feats = data_dict["vox_feats"].float()
+                bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"]).float()
                 sinput = ME.SparseTensor(
                     unique_feats,
                     bcoords,
                     quantization_mode=ME.SparseTensorQuantizationMode.UNWEIGHTED_AVERAGE,
-                    # device=device
+                    device=device
                 )
-                #del unique_feats
-                #del bcoords
                 data_dict["sinput"] = sinput
                 hm_ret_dict = model_list[0](data_dict)
                 data_dict["pcd_heatmap"] = hm_ret_dict["pcd_heatmap"]

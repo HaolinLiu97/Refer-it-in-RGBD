@@ -23,3 +23,6 @@ if __name__=="__main__":
     if cfg.config['mode']=='train':
         import train
         train.run(cfg)
+    elif cfg.config['mode']=='test':
+        import test
+        test.run(cfg)
