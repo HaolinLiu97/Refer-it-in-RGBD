@@ -66,18 +66,19 @@ class ref_loss(nn.Module):
         batch_size=vote_loc.shape[0]
         target_votes=point_votes[torch.arange(batch_size)[:,None],seed_ind]
         target_mask=point_votes_mask[torch.arange(batch_size)[:,None],seed_ind]
-        #error = torch.sum(
-        #    (vote_loc.transpose(1, 2) * target_mask.unsqueeze(2) - target_votes * target_mask.unsqueeze(2))**2)
-        error = vote_loc.transpose(1, 2) * target_mask.unsqueeze(2)-target_votes* target_mask.unsqueeze(2)
-        vote_loss=torch.sum(huber_loss(error))/torch.sum(target_mask)
-        #vote_loss=error/torch.sum(target_mask)
+        error = torch.sum(
+            (vote_loc.transpose(1, 2) * target_mask.unsqueeze(2) - target_votes * target_mask.unsqueeze(2))**2)
+        #error = vote_loc.transpose(1, 2) * target_mask.unsqueeze(2)-target_votes* target_mask.unsqueeze(2)
+        #vote_loss=torch.sum(huber_loss(error))/torch.sum(target_mask)
+        vote_loss=error/torch.sum(target_mask)
         #vote_loss=torch.sum((vote_loc.transpose(1,2)*target_mask.unsqueeze(2)-target_votes*target_mask.unsqueeze(2))**2)/torch.sum(target_mask)
 
         pseudo_target_votes = point_votes[torch.arange(batch_size)[:, None], pseudo_seed_ind]
         pseudo_target_mask = point_votes_mask[torch.arange(batch_size)[:, None], pseudo_seed_ind]
-        pseudo_error = pseudo_vote_loc.transpose(1, 2) * pseudo_target_mask.unsqueeze(2) - pseudo_target_votes * pseudo_target_mask.unsqueeze(2)
-        #pseudo_vote_loss=pseudo_error/torch.sum(pseudo_target_mask)
-        pseudo_vote_loss=torch.sum(huber_loss(pseudo_error))/torch.sum(pseudo_target_mask)
+        #pseudo_error = pseudo_vote_loc.transpose(1, 2) * pseudo_target_mask.unsqueeze(2) - pseudo_target_votes * pseudo_target_mask.unsqueeze(2)
+        pseudo_error= torch.sum((pseudo_vote_loc.transpose(1, 2) * pseudo_target_mask.unsqueeze(2) - pseudo_target_votes * pseudo_target_mask.unsqueeze(2))**2)
+        pseudo_vote_loss=pseudo_error/torch.sum(pseudo_target_mask)
+        #pseudo_vote_loss=torch.sum(huber_loss(pseudo_error))/torch.sum(pseudo_target_mask)
         loss_dict["vote_loss"]=vote_loss+pseudo_vote_loss
         return loss_dict,info_dict
 
