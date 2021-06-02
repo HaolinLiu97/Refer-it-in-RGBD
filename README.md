@@ -1,4 +1,5 @@
 # Refer-it-in-RGBD
+![demo video](docs/projectpage.gif)
 <p align="center"><img src="docs/teaser.png" width="400px"/></p>
 This is the repository of our paper 'Refer-it-in-RGBD: A Bottom-up Approach for 3D Visual Grounding in RGBD Images' in CVPR 2021</br>
 <br>
@@ -16,3 +17,4 @@ We evaluate the proposed method by comparing to the state-of-the-art methods on 
 <a href="https://unclemedm.github.io/Refer-it-in-RGBD/SUNREFER_v2.json">Download SUNREFER_v2 dataset</a><br>
 SUNREFER dataset contains 38,495 referring expression corresponding to 7,699 objects from SUNRGBD dataset. Here is one example from SUNREFER dataset:
 <p align="center"><img src="docs/dataset_example.png" width="400px"/></p>
+
