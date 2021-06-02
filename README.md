@@ -1,6 +1,5 @@
 # Refer-it-in-RGBD
-![demo video](docs/projectpage.gif)
-<p align="center"><img src="docs/teaser.png" width="400px"/></p>
+<p align="center"><img src="docs/teaser.png" width="400px"/><img src="docs/projectpage.gif" width="450px"></p></br>
 This is the repository of our paper 'Refer-it-in-RGBD: A Bottom-up Approach for 3D Visual Grounding in RGBD Images' in CVPR 2021</br>
 <br>
 Paper - <a href="https://arxiv.org/pdf/2103.07894" target="__blank">ArXiv - pdf</a> (<a href="https://arxiv.org/abs/2103.07894" target="__blank">abs</a>) 
@@ -18,3 +17,19 @@ We evaluate the proposed method by comparing to the state-of-the-art methods on 
 SUNREFER dataset contains 38,495 referring expression corresponding to 7,699 objects from SUNRGBD dataset. Here is one example from SUNREFER dataset:
 <p align="center"><img src="docs/dataset_example.png" width="400px"/></p>
 
+### In stall packages
+CUDA 11.1 is used for this project. <br>
+Install other package by:
+```angular2
+pip install -r requirement.txt
+```
+Install weighted FPS by:
+```angular2
+cd weighted_FPS
+python setup.py install
+```
+Install pointnet2 by:
+```angular2
+cd third_party/pointnet2
+python setup.py install
+```
