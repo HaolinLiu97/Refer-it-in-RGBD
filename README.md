@@ -1,5 +1,5 @@
 # Refer-it-in-RGBD
-<p align="center"><img src="docs/teaser.png" width="400px"/><img src="docs/projectpage.gif" width="450px"></p></br>
+<p align="center"><img src="docs/teaser.png" width="300px"/><img src="docs/projectpage.gif" width="330px"></p></br>
 This is the repository of our paper 'Refer-it-in-RGBD: A Bottom-up Approach for 3D Visual Grounding in RGBD Images' in CVPR 2021</br>
 <br>
 Paper - <a href="https://arxiv.org/pdf/2103.07894" target="__blank">ArXiv - pdf</a> (<a href="https://arxiv.org/abs/2103.07894" target="__blank">abs</a>) 
