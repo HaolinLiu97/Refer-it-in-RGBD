@@ -17,7 +17,7 @@ We evaluate the proposed method by comparing to the state-of-the-art methods on 
 SUNREFER dataset contains 38,495 referring expression corresponding to 7,699 objects from SUNRGBD dataset. Here is one example from SUNREFER dataset:
 <p align="center"><img src="docs/dataset_example.png" width="400px"/></p>
 
-### In stall packages
+# Install packages
 CUDA 11.1 is used for this project. <br>
 Install other package by:
 ```angular2
