@@ -18,7 +18,7 @@ SUNREFER dataset contains 38,495 referring expression corresponding to 7,699 obj
 <p align="center"><img src="docs/dataset_example.png" width="400px"/></p>
 
 # Install packages
-CUDA 11.1 is used for this project. <br>
+CUDA 10.2 is used for this project. <br>
 Install other package by:
 ```angular2
 pip install -r requirement.txt
@@ -33,3 +33,10 @@ Install pointnet2 by:
 cd third_party/pointnet2
 python setup.py install
 ```
+Install MinkowskiEngine, detail can be referred in <a href="https://github.com/NVIDIA/MinkowskiEngine" target="__blank">this link</a>.
+#Prepare data
+###ScanRefer dataset
+The processed data of ScanRefer and ScanNet is in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/EpdaZpFCBNBKsV2LxMhf7ckBQiMSv5g6_dBb0bAV2kYRhQ?e=6fP2ri" target="__blank"> this link</a>.
+The processing script of how to prepare the data will be released later.
+###SUNRefer dataset
+The processed data of SUNRefer dataset will be comming in a few days.
