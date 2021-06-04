@@ -34,6 +34,7 @@ cd third_party/pointnet2
 python setup.py install
 ```
 Install MinkowskiEngine, detail can be referred in <a href="https://github.com/NVIDIA/MinkowskiEngine" target="__blank">this link</a>.
+
 #Prepare data
 Firstly create a new folder named data under the root directory. Download glove word embedding file glove.p in <a href='http://kaldir.vc.in.tum.de/glove.p' target='__bland'> glove.p</a>.
 ###ScanRefer dataset
