@@ -35,9 +35,9 @@ python setup.py install
 ```
 Install MinkowskiEngine, detail can be referred in <a href="https://github.com/NVIDIA/MinkowskiEngine" target="__blank">this link</a>.
 
-#Prepare data
+# Prepare data
 Firstly create a new folder named data under the root directory. Download glove word embedding file glove.p in <a href='http://kaldir.vc.in.tum.de/glove.p' target='__bland'> glove.p</a>.
-###ScanRefer dataset
+### ScanRefer dataset
 The processed data of ScanRefer and ScanNet is in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/EpdaZpFCBNBKsV2LxMhf7ckBQiMSv5g6_dBb0bAV2kYRhQ?e=6fP2ri" target="__blank"> processed data</a>.
 <br>
  Unzip and put the scannet_singleRGBD folder under data. There should be several folders inside the scannet_singleRGBD,
@@ -46,10 +46,10 @@ The processed data of ScanRefer and ScanNet is in <a href="https://cuhko365-my.s
 
 The processing script of how to prepare the data will be released later.
 
-###SUNRefer dataset
+### SUNRefer dataset
 The processed data of SUNRefer dataset will be comming in a few days.
 
-#Training
+# Training
 The training procedure is split into two stage.<br>
 Firstly, train the voxel-level matching model indenpendently by running
 ```angular2
@@ -64,7 +64,7 @@ please make sure the weight of the voxel-level matching is loaded, which is defi
 `hm_model_resume' entry in the configuration file.
 PS: sometime the training will be stopped due to some bugs in CUDA10.x (CUDA11 works fine, but it will need pytorch 1.7.1). You will need to resume the training manually
 by setting the resume=True in the configuration file, and change the weight entry to be the path of the checkpoint.
-#Testing
+# Testing
 Modify the weight path in /config/test_scanrefer_config.yaml. Then run the following command to test the model:
 ```angular2
 python main.py --mode test --config ./config/test_scanrefer_config.yaml
