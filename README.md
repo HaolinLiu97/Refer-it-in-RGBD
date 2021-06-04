@@ -62,7 +62,7 @@ python main.py --config ./config/train_scanrefer_config.yaml
 ```
 please make sure the weight of the voxel-level matching is loaded, which is defined in the
 `hm_model_resume' entry in the configuration file.
-PS: sometime the training will be stopped due to some bugs in CUDA10.x (CUDA11 works fine, but it will need pytorch 1.7.1). You will need to resume the training manually
+<br>PS: sometime the training will be stopped due to some bugs in CUDA10.x (CUDA11 works fine, but it will need pytorch 1.7.1). You will need to resume the training manually
 by setting the resume=True in the configuration file, and change the weight entry to be the path of the checkpoint.
 # Testing
 Modify the weight path in /config/test_scanrefer_config.yaml. Then run the following command to test the model:
