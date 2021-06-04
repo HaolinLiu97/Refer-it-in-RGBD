@@ -1,12 +1,12 @@
 resume: False
-weight: 'checkpoints/refer-it-in-RGBD/model_latest.pth'
+weight: checkpoints/refer-it-in-RGBD-0602/model_latest.pth
 hm_model_resume: checkpoints/voxel_match_pretrain/model_best.pth
 method: refer
-exp_name: refer-it-in-RGBD-lr1e-3
+exp_name: refer-it-in-RGBD-0603
 isTrain: True
 device:
   use_gpu: True
-  gpu_ids: '3'
+  gpu_ids: '2'
 data:
   dataset: scanrefer-singleRGBD
   sigma: 0.5
@@ -23,7 +23,7 @@ data:
   MAX_DES_LEN: 117
   MAX_NUM_OBJ: 128
   batch_size: 14
-  num_workers: 4
+  num_workers: 8
 model:
   t: 1
   alpha: 0.5
@@ -34,7 +34,7 @@ model:
 optimizer:
   method: Adam
   lr_ref: 1e-3
-  lr_hm: 1e-3
+  lr_hm: 1e-4
   beta1: 0.9
   beta2: 0.999
 scheduler:

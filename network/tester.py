@@ -50,8 +50,8 @@ def ref_tester(cfg,model_list,loss_func,test_loader,device,checkpoint):
                 if (not isinstance(data_dict[key], list)) and key!="vox_feats" and key!="vox_coords":
                     data_dict[key] = data_dict[key].cuda()
             # print(data_dict["size"])
-            unique_feats = data_dict["vox_feats"].float()
-            bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"]).float()
+            unique_feats = data_dict["vox_feats"]
+            bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"])
             sinput = ME.SparseTensor(
                 unique_feats,
                 bcoords,
@@ -103,8 +103,8 @@ def ref_tester(cfg,model_list,loss_func,test_loader,device,checkpoint):
                     pack_data["image_id"] = image_id
                     pack_data["object_id"] = object_id
                     pack_data["seed_loc"] = ret_dict["seed_loc"][i].detach().cpu().numpy()
-                    pack_data["all_target_bboxes"] = data_dict["all_target_bboxes"].cpu().numpy()
-                    pack_data["target_bboxes_mask"] = data_dict["target_bboxes_mask"].cpu().numpy()
+                    #pack_data["all_target_bboxes"] = data_dict["all_target_bboxes"].cpu().numpy()
+                    #pack_data["target_bboxes_mask"] = data_dict["target_bboxes_mask"].cpu().numpy()
                     # pack_data["voxel_ouput"]=sparse_voxel
                     pack_data["input_point_cloud"] = data_dict["input_point_cloud"].transpose(1, 2)[
                         i].detach().cpu().numpy()

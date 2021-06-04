@@ -232,14 +232,10 @@ class singleRGBD_dataset(Dataset):
         batch["lang_feat"]=lang_feat
         batch['lang_len']=lang_len
         batch['object_id']=object_id
-        batch["all_target_bboxes"] = target_bboxes
-        batch["target_bboxes_mask"] = target_bboxes_mask
 
         batch['ann_id']=ann_id
-        batch['box_label']=ref_box_label
         batch['scene_id']=scene_id
         batch['object_id']=str(object_id)
-        batch['box_label']=ref_box_label
         batch['point_votes']=point_votes
         batch['point_votes_mask']=point_votes_mask
         batch['sentence']=sentence

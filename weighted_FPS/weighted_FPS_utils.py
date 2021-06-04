@@ -22,8 +22,6 @@ except ImportError:
     if not getattr(builtins, "__WEIGHTED_FPS_SETUP__", False):
         raise ImportError(
             "Could not import _ext module.\n"
-            "Please see the setup instructions in the README: "
-            "https://github.com/erikwijmans/Pointnet2_PyTorch/blob/master/README.rst"
         )
 
 if False:

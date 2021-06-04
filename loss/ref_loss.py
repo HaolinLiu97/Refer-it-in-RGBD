@@ -96,8 +96,7 @@ class ref_loss(nn.Module):
         pred_intact_box = result_dict["pred_intact_bbox"]
         batch_size=pred_intact_box.shape[0]
         mask = torch.zeros((pred_intact_box.shape[0])).cuda()
-        valid_iou_ind = torch.where(max_iou > 0.2)
-        mask[valid_iou_ind[0]] = 1
+        mask=torch.where(max_iou>0.2,torch.ones_like(mask), mask)
         #mask=torch.where(max_iou>0.2,torch.ones(max_iou.shape).cuda(),torch.zeros(max_iou.shape).cuda())
 
         nn_box = pred_intact_box[torch.arange(batch_size), :, ind]
@@ -111,8 +110,7 @@ class ref_loss(nn.Module):
         max_iou, ind = torch.max(result_dict["partial_IoU"], dim=1)
         pred_partial_bbox = result_dict["pred_partial_bbox"]
         mask = torch.zeros((pred_partial_bbox.shape[0])).cuda()
-        valid_iou_ind = torch.where(max_iou > 0)
-        mask[valid_iou_ind[0]] = 1
+        mask=torch.where(max_iou>0.2,torch.ones_like(mask), mask)
 
         nn_box = pred_partial_bbox[torch.arange(batch_size), :, ind]
         partial_response_loss = self.l2criterion(nn_box[:, 0:6]*mask.unsqueeze(1).repeat(1,6) ,

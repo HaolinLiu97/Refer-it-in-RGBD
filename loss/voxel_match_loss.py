@@ -6,10 +6,12 @@ class voxel_match_loss(nn.Module):
         super().__init__()
         self.criterion=nn.MSELoss()
     def forward(self,output,label):
-        positive_ind=torch.where(label>0.2)
-        positive_loss=self.criterion(output[positive_ind[0],positive_ind[1]],label[positive_ind[0],positive_ind[1]])
-        negative_ind=torch.where(label<=0.2)
-        negative_loss=self.criterion(output[negative_ind[0],negative_ind[1]],label[negative_ind[0],negative_ind[1]])
+        positive_mask=torch.zeros(label.shape).cuda()
+        positive_mask=torch.where(label>0.2,torch.ones_like(positive_mask), positive_mask)
+        positive_loss=self.criterion(output*positive_mask,label*positive_mask)
+        negative_mask=torch.zeros(label.shape).cuda()
+        negative_mask = torch.where(label <= 0.2, torch.ones_like(negative_mask), negative_mask)
+        negative_loss=self.criterion(output*negative_mask,label*negative_mask)
         loss=positive_loss+negative_loss
         loss=loss/2
         return loss

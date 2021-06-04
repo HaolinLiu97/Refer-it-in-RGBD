@@ -1,5 +1,5 @@
 resume: True
-weight: checkpoints/refer-it-in-RGBD/model_best.pth
+weight: checkpoints/refer-it-in-RGBD-0602/model_best.pth
 hm_model_resume: checkpoints/voxel_match_pretrain/model_best.pth
 method: refer
 exp_name: refer-it-in-RGBD-test
@@ -7,7 +7,7 @@ isTrain: True
 save_vis: True
 device:
   use_gpu: True
-  gpu_ids: '3'
+  gpu_ids: '2'
 data:
   dataset: scanrefer-singleRGBD
   sigma: 0.5

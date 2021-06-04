@@ -37,16 +37,14 @@ def voxel_match_trainer(cfg,model,loss_func,optimizer,scheduler,train_loader,tes
                 if (not isinstance(data_dict[key],list)) and key!="vox_feats" and key!="vox_coords":
                     data_dict[key]=data_dict[key].cuda()
             # print(data_dict["size"])
-            unique_feats = data_dict["vox_feats"].float().cuda()
-            bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"]).float().cuda()
+            unique_feats = data_dict["vox_feats"].float()
+            bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"]).float()
             sinput = ME.SparseTensor(
                 unique_feats,
                 bcoords,
                 quantization_mode=ME.SparseTensorQuantizationMode.UNWEIGHTED_AVERAGE,
-                #device=device
+                device=device
             )
-            del unique_feats
-            del bcoords
             data_dict["sinput"] = sinput
             ret_dict = model(data_dict)
 
@@ -110,13 +108,13 @@ def voxel_match_trainer(cfg,model,loss_func,optimizer,scheduler,train_loader,tes
                     if (not isinstance(data_dict[key], list)) and key != "vox_feats" and key!="vox_coords":
                         data_dict[key] = data_dict[key].cuda()
                 # print(data_dict["size"])
-                unique_feats = data_dict["vox_feats"].float().cuda()
-                bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"]).float().cuda()
+                unique_feats = data_dict["vox_feats"].float()
+                bcoords = ME.utils.batched_coordinates(data_dict["vox_coords"]).float()
                 sinput = ME.SparseTensor(
                     unique_feats,
                     bcoords,
                     quantization_mode=ME.SparseTensorQuantizationMode.UNWEIGHTED_AVERAGE,
-                    # device=device
+                    device=device
                 )
                 data_dict["sinput"] = sinput
                 ret_dict = model(data_dict)
