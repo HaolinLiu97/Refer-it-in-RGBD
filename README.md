@@ -84,3 +84,14 @@ You can further evaluate the result by running:
 ```angular2
 python evaluate.py --result_dir ./checkpoints/save_dir
 ```
+# Citation
+If you find our work useful, please cite
+```angular2
+@inproceedings{liu2021refer,
+  title={Refer-it-in-RGBD: A Bottom-up Approach for 3D Visual Grounding in RGBD Images},
+  author={Liu, Haolin and Lin, Anran and Han, Xiaoguang and Yang, Lei and Yu, Yizhou and Cui, Shuguang},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={6032--6041},
+  year={2021}
+}
+```
