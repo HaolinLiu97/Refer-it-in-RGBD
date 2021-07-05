@@ -9,6 +9,7 @@ class ref_loss(nn.Module):
         self.voxel_match_loss=voxel_match_loss()
         self.cfg=cfg
         self.l2criterion=nn.MSELoss()
+        self.use_vote_l1=cfg["loss"]["use_vote_l1"]
 
     def compute_iou(self,pred_box,ref_bbox):
         batch_size=pred_box.shape[0]
@@ -59,27 +60,59 @@ class ref_loss(nn.Module):
         return reference_loss
 
     def compute_vote_loss(self,result_dict,data_dict,loss_dict,info_dict):
-        vote_loc,seed_ind=result_dict["vote_loc"],result_dict["seed_ind"]
-        pseudo_vote_loc,pseudo_seed_ind=result_dict["pseudo_vote_loc"],result_dict["pseudo_seed_ind"]
-        point_votes,point_votes_mask=data_dict["point_votes"],data_dict["point_votes_mask"]
+        if self.cfg['data']['dataset']=='scanrefer-singleRGBD':
+            vote_loc,seed_ind=result_dict["vote_loc"],result_dict["seed_ind"]
+            pseudo_vote_loc,pseudo_seed_ind=result_dict["pseudo_vote_loc"],result_dict["pseudo_seed_ind"]
+            point_votes,point_votes_mask=data_dict["point_votes"],data_dict["point_votes_mask"]
 
-        batch_size=vote_loc.shape[0]
-        target_votes=point_votes[torch.arange(batch_size)[:,None],seed_ind]
-        target_mask=point_votes_mask[torch.arange(batch_size)[:,None],seed_ind]
-        error = torch.sum(
-            (vote_loc.transpose(1, 2) * target_mask.unsqueeze(2) - target_votes * target_mask.unsqueeze(2))**2)
-        #error = vote_loc.transpose(1, 2) * target_mask.unsqueeze(2)-target_votes* target_mask.unsqueeze(2)
-        #vote_loss=torch.sum(huber_loss(error))/torch.sum(target_mask)
-        vote_loss=error/torch.sum(target_mask)
-        #vote_loss=torch.sum((vote_loc.transpose(1,2)*target_mask.unsqueeze(2)-target_votes*target_mask.unsqueeze(2))**2)/torch.sum(target_mask)
+            batch_size=vote_loc.shape[0]
+            target_votes=point_votes[torch.arange(batch_size)[:,None],seed_ind]
+            target_mask=point_votes_mask[torch.arange(batch_size)[:,None],seed_ind]
+            error = torch.sum(
+                (vote_loc.transpose(1, 2) * target_mask.unsqueeze(2) - target_votes * target_mask.unsqueeze(2))**2)
+            vote_loss=error/torch.sum(target_mask)
+            #vote_loss=torch.sum((vote_loc.transpose(1,2)*target_mask.unsqueeze(2)-target_votes*target_mask.unsqueeze(2))**2)/torch.sum(target_mask)
 
-        pseudo_target_votes = point_votes[torch.arange(batch_size)[:, None], pseudo_seed_ind]
-        pseudo_target_mask = point_votes_mask[torch.arange(batch_size)[:, None], pseudo_seed_ind]
-        #pseudo_error = pseudo_vote_loc.transpose(1, 2) * pseudo_target_mask.unsqueeze(2) - pseudo_target_votes * pseudo_target_mask.unsqueeze(2)
-        pseudo_error= torch.sum((pseudo_vote_loc.transpose(1, 2) * pseudo_target_mask.unsqueeze(2) - pseudo_target_votes * pseudo_target_mask.unsqueeze(2))**2)
-        pseudo_vote_loss=pseudo_error/torch.sum(pseudo_target_mask)
-        #pseudo_vote_loss=torch.sum(huber_loss(pseudo_error))/torch.sum(pseudo_target_mask)
-        loss_dict["vote_loss"]=vote_loss+pseudo_vote_loss
+            pseudo_target_votes = point_votes[torch.arange(batch_size)[:, None], pseudo_seed_ind]
+            pseudo_target_mask = point_votes_mask[torch.arange(batch_size)[:, None], pseudo_seed_ind]
+            #pseudo_error = pseudo_vote_loc.transpose(1, 2) * pseudo_target_mask.unsqueeze(2) - pseudo_target_votes * pseudo_target_mask.unsqueeze(2)
+            pseudo_error= torch.sum((pseudo_vote_loc.transpose(1, 2) * pseudo_target_mask.unsqueeze(2) - pseudo_target_votes * pseudo_target_mask.unsqueeze(2))**2)
+            pseudo_vote_loss=pseudo_error/torch.sum(pseudo_target_mask)
+            #pseudo_vote_loss=torch.sum(huber_loss(pseudo_error))/torch.sum(pseudo_target_mask)
+            loss_dict["vote_loss"]=vote_loss+pseudo_vote_loss
+        elif self.cfg['data']['dataset']=='sunrefer':
+            vote_loc, seed_ind = result_dict["vote_loc"], result_dict["seed_ind"]
+            pseudo_vote_loc, pseudo_seed_ind = result_dict["pseudo_vote_loc"], result_dict["pseudo_seed_ind"]
+            point_votes, point_votes_mask = data_dict["point_votes"], data_dict["point_votes_mask"]
+            batch_size = vote_loc.shape[0]
+            num_seed = vote_loc.shape[2]
+            # print(vote_loc.shape)
+            target_votes = point_votes[torch.arange(batch_size)[:, None], seed_ind]
+            target_mask = point_votes_mask[torch.arange(batch_size)[:, None], seed_ind]
+            vote_loc = vote_loc.transpose(1, 2).contiguous()
+            # print(vote_loc.shape,batch_size,num_seed)
+            vote_xyz_reshape = vote_loc.contiguous().view(batch_size * num_seed, -1,
+                                                          3)  # from B,num_seed*vote_factor,3 to B*num_seed,vote_factor,3
+            seed_gt_votes_reshape = target_votes.contiguous().view(batch_size * num_seed, 3, 3)
+
+            dist1, _, dist2, _ = nn_distance(vote_xyz_reshape, seed_gt_votes_reshape, l1=self.use_vote_l1)
+            votes_dist, _ = torch.min(dist2, dim=1)  # (B*num_seed,vote_factor) to (B*num_seed,)
+            votes_dist = votes_dist.view(batch_size, num_seed)
+            vote_loss = torch.sum(votes_dist * target_mask.float()) / (torch.sum(target_mask.float()) + 1e-6)
+
+            num_seed = pseudo_vote_loc.shape[2]
+            pseudo_vote_loc=pseudo_vote_loc.transpose(1,2).contiguous()
+            pseudo_vote_loc_reshape=pseudo_vote_loc.contiguous().view(batch_size*num_seed,-1,3)
+            #print(point_votes.shape)
+            pseudo_target_votes=point_votes[torch.arange(batch_size)[:,None],pseudo_seed_ind]
+            pseudo_target_mask=point_votes_mask[torch.arange(batch_size)[:,None],pseudo_seed_ind]
+            #print(pseudo_target_votes.shape)
+            pseudo_seed_gt_votes_reshape=pseudo_target_votes.contiguous().view(batch_size*num_seed,3,3)
+            dist1,_,dist2,_=nn_distance(pseudo_vote_loc_reshape,pseudo_seed_gt_votes_reshape,l1=self.use_vote_l1)
+            pseudo_votes_dist,_=torch.min(dist2,dim=1)
+            pseudo_votes_dist=pseudo_votes_dist.view(batch_size,num_seed)
+            pseudo_vote_loss=torch.sum(pseudo_votes_dist*pseudo_target_mask.float())/(torch.sum(pseudo_target_mask.float())+1e-6)
+            loss_dict["vote_loss"]=vote_loss+pseudo_vote_loss
         return loss_dict,info_dict
 
     def compute_matching_loss(self,result_dict,data_dict,loss_dict,info_dict):

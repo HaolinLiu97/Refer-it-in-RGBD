@@ -1,0 +1,44 @@
+resume: False
+weight: ['checkpoints/sunrefer_pretrain/model_best.pth']
+method: voxel_match_pretrain
+exp_name: sunrefer_voxel_match_pretrain
+isTrain: True
+device:
+  use_gpu: True
+  gpu_ids: '3'
+data:
+  dataset: sunrefer
+  sigma: 0.5
+  debug: False
+  use_color : True
+  use_aug: True
+  num_points: 20000
+  use_refine: True
+  voxel_size: 0.05
+  num_sample: -1 #if -1, use all sample, if >0, use limited number of sample
+  val_path: ./data/sunrefer_singleRGBD/SUNREFER_val.pkl
+  train_path: ./data/sunrefer_singleRGBD/SUNREFER_train.pkl
+  data_path: ./data/sunrefer_singleRGBD/sunrgbd_pc_bbox_votes_30k_v2
+  MAX_DES_LEN: 117
+  MAX_NUM_OBJ: 128
+  batch_size: 16
+  num_workers: 4
+model:
+  t: 2
+  alpha: 0.5
+optimizer:
+  method: Adam
+  lr: 1e-3
+  beta1: 0.9
+  beta2: 0.999
+scheduler:
+  gamma: 0.5
+visualization:
+  model_vis_interval: 10000
+other:
+  clean_cache_interval: 100
+  nepoch: 10
+  model_save_interval: 1
+  model_save_dir: ./checkpoints
+
+

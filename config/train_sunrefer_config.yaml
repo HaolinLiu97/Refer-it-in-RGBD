@@ -1,31 +1,31 @@
 resume: False
-weight: checkpoints/refer-it-in-RGBD-0603/model_latest.pth
-hm_model_resume: checkpoints/voxel_match_pretrain/model_best.pth
+weight: checkpoints/sunrefer_pretrain/model_latest.pth
+hm_model_resume: checkpoints/sunrefer_voxel_match_pretrain/model_best.pth
 method: refer
-exp_name: refer-it-in-RGBD-0607
+exp_name: sunrefer
 isTrain: True
 device:
   use_gpu: True
-  gpu_ids: '3'
+  gpu_ids: '1'
 data:
-  dataset: scanrefer-singleRGBD
+  dataset: sunrefer
   sigma: 0.5
-  debug: False
+  debug: True
   use_color : True
   use_aug: True
   num_points: 20000
   use_refine: True
   voxel_size: 0.05
   num_sample: 1000 #if -1, use all sample, if >0, use limited number of sample
-  val_path: ./data/scannet_singleRGBD/SRGBD_filtered_val.json
-  train_path: ./data/scannet_singleRGBD/SRGBD_filtered_train.json
-  data_path: ./data/scannet_singleRGBD
+  val_path: ./data/sunrefer_singleRGBD/SUNREFER_val.pkl
+  train_path: ./data/sunrefer_singleRGBD/SUNREFER_train.pkl
+  data_path: ./data/sunrefer_singleRGBD/sunrgbd_pc_bbox_votes_30k_v2
   MAX_DES_LEN: 117
   MAX_NUM_OBJ: 128
-  batch_size: 14
+  batch_size: 4
   num_workers: 8
 model:
-  t: 1
+  t: 2
   alpha: 0.5
   max_nseed: 256
   pcd_in_channels: 3
@@ -53,6 +53,6 @@ loss:
   w_heatmap: 0.5
   w_ref: 0.1
   w_vote: 0.5
-  use_vote_l1: False
+  use_vote_l1: True
 
 

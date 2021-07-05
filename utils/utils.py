@@ -1,4 +1,5 @@
 from dataset.scanrefer_dataloader import singleRGBD_dataset
+from dataset.sunrefer_dataloader import sunrefer_dataset
 from torch.utils import data
 from network import ref_net
 import torch
@@ -215,8 +216,13 @@ def get_dataloader(cfg,mode):
             dataset=singleRGBD_dataset(cfg,True)
         elif mode=="test":
             dataset=singleRGBD_dataset(cfg,False)
+    elif cfg['data']['dataset']=="sunrefer":
+        if mode=="train":
+            dataset=sunrefer_dataset(cfg,True)
+        elif mode=="test":
+            dataset=sunrefer_dataset(cfg,False)
 
-    dataloader=data.DataLoader(dataset=dataset,batch_size=cfg['data']['batch_size'],shuffle=True,num_workers=cfg['data']['num_workers'],drop_last=True,collate_fn=custom_collation_fn)
+    dataloader=data.DataLoader(dataset=dataset,batch_size=cfg['data']['batch_size'],shuffle=False,num_workers=cfg['data']['num_workers'],drop_last=True,collate_fn=custom_collation_fn)
     return dataloader
 
 def get_optimizer(config, net):
@@ -286,7 +292,7 @@ def get_model(cfg,device):
         hm_model=Voxel_Match()
         print("loadding model from:",cfg["hm_model_resume"])
         checkpoint=torch.load(cfg["hm_model_resume"])
-        hm_model.load_state_dict(checkpoint)
+        hm_model.load_state_dict(checkpoint['voxnet'])
         hm_model.to(device)
         model_list=[hm_model,ref_model]
         return model_list

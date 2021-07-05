@@ -81,10 +81,14 @@ def voxel_match_trainer(cfg,model,loss_func,optimizer,scheduler,train_loader,tes
                 chosen_atten = atten[0, :, np.newaxis]  # atten
                 chosen_label = label[0, :, np.newaxis]
                 sparse_voxel = np.concatenate([chosen_coords, chosen_feat, chosen_atten, chosen_label], axis=1)
-
+                unique_id=None
+                if cfg.config['data']['dataset']=="scanrefer-singleRGBD":
+                    unique_id=data_dict["scene_id"][0]
+                elif cfg.config['data']['dataset']=="sunrefer":
+                    unique_id=data_dict["image_id"][0]
                 voxel_dict = {
                     "voxel_output": sparse_voxel,
-                    "scene_id": data_dict["scene_id"][0],
+                    "scene_id": unique_id,
                     "sentence": data_dict["sentence"][0],
                 }
 
@@ -120,10 +124,23 @@ def voxel_match_trainer(cfg,model,loss_func,optimizer,scheduler,train_loader,tes
                 ret_dict = model(data_dict)
 
                 loss = loss_func(ret_dict["pcd_heatmap"],data_dict["heatmap_label"])
-                eval_loss+=loss
-            avg_eval_loss=eval_loss/batch_id
+
+                total_loss=loss
+                msg = "{:0>8},{}:{},[{}/{}],{}: {}".format(
+                    str(datetime.timedelta(seconds=round(time.time() - start_t))),
+                    "epoch",
+                    e,
+                    batch_id + 1,
+                    len(test_loader),
+                    "test_loss",
+                    total_loss.item()
+                )
+
+                print(msg)
+                eval_loss+=loss.item()
+            avg_eval_loss=eval_loss/(batch_id+1)
         print("eval_loss is",avg_eval_loss)
-        tb_logger.add_scalar('eval_loss', avg_eval_loss.item(), e)
+        tb_logger.add_scalar('eval_loss', avg_eval_loss, e)
         checkpoint.register_modules(epoch=e, min_loss=avg_eval_loss)
         if avg_eval_loss<min_eval_loss:
             checkpoint.save('best')
