@@ -38,7 +38,7 @@ Install MinkowskiEngine, detail can be referred in <a href="https://github.com/N
 # Prepare data
 Firstly create a new folder named data under the root directory. Download glove word embedding file glove.p in <a href='http://kaldir.vc.in.tum.de/glove.p' target='__bland'> glove.p</a>.
 ### ScanRefer dataset
-The processed data of ScanRefer and ScanNet is in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/EpdaZpFCBNBKsV2LxMhf7ckBQiMSv5g6_dBb0bAV2kYRhQ?e=6fP2ri" target="__blank"> processed data</a>.
+The processed data of ScanRefer and ScanNet is in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/EpdaZpFCBNBKsV2LxMhf7ckBQiMSv5g6_dBb0bAV2kYRhQ?e=6fP2ri" target="__blank"> scanrefer data</a>.
 <br>
  Unzip and put the scannet_singleRGBD folder under data. There should be several folders inside the scannet_singleRGBD,
  which are pcd, storing the point cloud of single-view RGBD image; pose, the camera extrinsic and intrinsic of each image; bbox, store all gt bounding box; and train/val split referring expression data in two .json file.
@@ -47,7 +47,10 @@ The processed data of ScanRefer and ScanNet is in <a href="https://cuhko365-my.s
 The processing script of how to prepare the data will be released later.
 
 ### SUNRefer dataset
-The processed data of SUNRefer dataset will be comming in a few days.
+The preprocessed data of SUNRefer dataset is released in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/Euyrz75TiEpElKzBxgM_21IB9Y7aMfzlol9vLhVRwiodug?e=b7JRR4" target="__blank"> sunrefer data</a>.
+<br>
+unzip and create a new folder named sunrefer_singleRGBD under data. Put the SUNREFER_train.pkl, SUNREFER_val.pkl and sunrgbd_pc_bbox_votes_30k_v2 under data/sunrefer_singleRGBD/
+
 
 # Training
 The training procedure is split into two stage.<br>
@@ -68,4 +71,9 @@ by setting the resume=True in the configuration file, and change the weight entr
 Modify the weight path in /config/test_scanrefer_config.yaml. Then run the following command to test the model:
 ```angular2
 python main.py --mode test --config ./config/test_scanrefer_config.yaml
+```
+# Evaluate
+You can further evaluate the result by running:
+```angular2
+python evaluate.py --result_dir ./checkpoints/save_dir
 ```
