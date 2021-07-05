@@ -36,7 +36,7 @@ python setup.py install
 Install MinkowskiEngine, detail can be referred in <a href="https://github.com/NVIDIA/MinkowskiEngine" target="__blank">this link</a>.
 
 # Prepare data
-Firstly create a new folder named data under the root directory. Download glove word embedding file glove.p in <a href='http://kaldir.vc.in.tum.de/glove.p' target='__bland'> glove.p</a>.
+Firstly create a new folder named data under the root directory. Download glove word embedding file glove.p in <a href='http://kaldir.vc.in.tum.de/glove.p' target='__blank'> glove.p</a>.
 ### ScanRefer dataset
 The processed data of ScanRefer and ScanNet is in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/EpdaZpFCBNBKsV2LxMhf7ckBQiMSv5g6_dBb0bAV2kYRhQ?e=6fP2ri" target="__blank"> scanrefer data</a>.
 <br>
@@ -47,10 +47,16 @@ The processed data of ScanRefer and ScanNet is in <a href="https://cuhko365-my.s
 The processing script of how to prepare the data will be released later.
 
 ### SUNRefer dataset
+We recommend to download the preprocessed data for SUNRefer dataset, on which you can train directly.<br>
 The preprocessed data of SUNRefer dataset is released in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/Euyrz75TiEpElKzBxgM_21IB9Y7aMfzlol9vLhVRwiodug?e=b7JRR4" target="__blank"> sunrefer data</a>.
 <br>
 unzip and create a new folder named sunrefer_singleRGBD under data. Put the SUNREFER_train.pkl, SUNREFER_val.pkl and sunrgbd_pc_bbox_votes_30k_v2 under data/sunrefer_singleRGBD/
-
+Please refer to the sunrgbd folder for the processing of the sunrgbd data, which is modified from <a href='https://github.com/facebookresearch/votenet/tree/master/sunrgbd' target='__blank'> votenet </a>.
+During the training, we merge SUNSPOT dataset and SUNRefer dataset for better diversity.
+The SUNRefer and <a href='https://arpg.github.io/sunspot/' target='__blank'>SUNSPOT dataset can be merged by running (The processed SUNSPOT dataset is already under /docs)
+```angular2
+python utils/merge_sunrefer_sunspot_dataset.py
+```
 
 # Training
 The training procedure is split into two stage.<br>
