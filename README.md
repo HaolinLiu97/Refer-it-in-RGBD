@@ -54,7 +54,7 @@ unzip and create a new folder named sunrefer_singleRGBD under data. Put the SUNR
 #### processing the sunrgbd and sunrefer data
 Please refer to the sunrgbd folder for the processing of the sunrgbd data, which is modified from <a href='https://github.com/facebookresearch/votenet/tree/master/sunrgbd' target='__blank'> votenet </a>.
 During the training, we merge SUNSPOT dataset and SUNRefer dataset for better diversity.
-The SUNRefer and <a href='https://arpg.github.io/sunspot/' target='__blank'>SUNSPOT dataset can be merged by running (The processed SUNSPOT dataset is already under /docs)
+The SUNRefer and <a href='https://arpg.github.io/sunspot/' target='__blank'>SUNSPOT dataset </a> can be merged by running (The processed SUNSPOT dataset is already under /docs)
 ```angular2
 python utils/merge_sunrefer_sunspot_dataset.py
 ```
