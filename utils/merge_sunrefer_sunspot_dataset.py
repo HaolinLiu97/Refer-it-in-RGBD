@@ -2,8 +2,8 @@ import os
 import json
 import pickle as p
 
-sunrefer_path="../data/SUNREFER_v2.json"
-sunspot_path="../data/SUNSPOT_3D.pkl"
+sunrefer_path="../docs/SUNREFER_v2.json"
+sunspot_path="../docs/SUNSPOT_3D.pkl"
 save_train_path="../data/sunrefer_singleRGBD/SUNREFER_train.pkl"
 save_val_path="../data/sunrefer_singleRGBD/SUNREFER_val.pkl"
 
