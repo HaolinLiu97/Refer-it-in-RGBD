@@ -61,14 +61,22 @@ python utils/merge_sunrefer_sunspot_dataset.py
 
 # Training
 The training procedure is split into two stage.<br>
-Firstly, train the voxel-level matching model indenpendently by running
+Firstly, train the voxel-level matching model indenpendently for 10 epochs by running
 ```angular2
 python main.py --config ./config/pretrain_config.yaml
 ```
+for training on SUNRefer dataset, runs:
+```angular2
+python main.py --config ./config/pretrain_sunrefer_config.yaml
+```
 You can adjust the configuration, I train all the models on one RTX2080Ti using batch size=14.
-Then, train the whole referring model by running:
+Then, train the whole referring model by running (make sure the hm_model_weight in the configuration files are set properly):
 ```angular2
 python main.py --config ./config/train_scanrefer_config.yaml
+```
+for training the whole model on SUNRefer dataset, runs:
+```angular2
+python main.py --config ./config/train_sunrefer_config.yaml
 ```
 please make sure the weight of the voxel-level matching is loaded, which is defined in the
 `hm_model_resume' entry in the configuration file.
@@ -80,7 +88,7 @@ Modify the weight path in /config/test_scanrefer_config.yaml. Then run the follo
 python main.py --mode test --config ./config/test_scanrefer_config.yaml
 ```
 # Evaluate
-You can further evaluate the result by running:
+You can further evaluate the result after running the testing and saving the results by running:
 ```angular2
 python evaluate.py --result_dir ./checkpoints/save_dir
 ```
