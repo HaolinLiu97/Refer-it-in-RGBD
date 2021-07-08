@@ -31,6 +31,7 @@ class sunrefer_dataset(Dataset):
             self.split_file = cfg['data']['train_path']
         else:
             self.split_file = cfg['data']['val_path']
+            self.use_aug=False
         if self.split_file.find(".pkl")>=0:
             with open(self.split_file,'rb') as f:
                 self.sunrgbd=p.load(f)

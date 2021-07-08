@@ -24,17 +24,17 @@ data:
   batch_size: 16
   num_workers: 4
 model:
-  t: 2
+  t: 1
   alpha: 0.5
 optimizer:
   method: Adam
-  lr: 1e-3
+  lr: 2e-4
   beta1: 0.9
   beta2: 0.999
 scheduler:
   gamma: 0.5
 visualization:
-  model_vis_interval: 10000
+  model_vis_interval: 1000
 other:
   clean_cache_interval: 100
   nepoch: 10

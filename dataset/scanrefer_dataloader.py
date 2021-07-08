@@ -51,6 +51,7 @@ class singleRGBD_dataset(Dataset):
             self.split_file=cfg['data']['train_path']
         else:
             self.split_file=cfg['data']['val_path']
+            self.use_aug=False
         with open(self.split_file,'r') as f:
             self.scanrefer=json.load(f)
         if not self.isTrain and self.cfg['data']['num_sample']>1:

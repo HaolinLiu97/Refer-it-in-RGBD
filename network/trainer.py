@@ -221,7 +221,7 @@ def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loa
             '''
             visualize training data into pickle form
             '''
-            '''
+
             if iter % config['visualization']["model_vis_interval"] == 0:
                 feats_batch = data_dict["vox_feats"].detach().cpu().numpy()  # color
                 bcoords = bcoords.detach().cpu().numpy()
@@ -234,18 +234,28 @@ def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loa
                 chosen_label = label[0, :, np.newaxis]
                 print(chosen_coords.shape, chosen_feat.shape, chosen_atten.shape, chosen_label.shape)
                 sparse_voxel = np.concatenate([chosen_coords, chosen_feat, chosen_atten, chosen_label], axis=1)
-
-                voxel_dict = {
+                if config['data']['dataset']=="sunrefer":
+                    unique_id=data_dict["image_id"][0]
+                else:
+                    unique_id=data_dict["scene_id"][0]
+                save_dict = {
                     "voxel_output": sparse_voxel,
-                    "scene_id": data_dict["scene_id"][0],
+                    "unique_id": unique_id,
                     "sentence": data_dict["sentence"][0],
                 }
+                save_dict["input_point_cloud"] = data_dict["input_point_cloud"][0].detach().cpu().numpy()
+                save_dict["seed_ind"] = ret_dict["seed_ind"][0].detach().cpu().numpy()
+                save_dict["pseudo_seed_ind"] = ret_dict["pseudo_seed_ind"][0].detach().cpu().numpy()
+                save_dict["point_votes"] = data_dict["point_votes"][0].detach().cpu().numpy()
+                save_dict["point_votes_mask"] = data_dict["point_votes_mask"][0].detach().cpu().numpy()
+                save_dict["vote_loc"] = ret_dict["vote_loc"][0].detach().cpu().numpy()
+                save_dict["pseudo_vote_loc"] = ret_dict["pseudo_vote_loc"][0].detach().cpu().numpy()
 
-                save_filename = "voxel_output_%d.pkl" % (iter)
+                save_filename = "data_batch_%d.pkl" % (iter)
                 save_path = os.path.join(log_dir, save_filename)
                 with open(save_path, "wb") as f:
-                    p.dump(voxel_dict, f)
-            '''
+                    p.dump(save_dict, f)
+
             if iter % config['other']['clean_cache_interval'] == 0:
                 torch.cuda.empty_cache()
 
@@ -292,20 +302,20 @@ def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loa
                 ret_dict = model_list[1](data_dict)
                 total_loss, loss_dict, info_dict,IoU = loss_func(ret_dict, data_dict)
                 Acc50,Acc25=compute_Acc(IoU,ret_dict)
-                Acc50_total+=Acc50
-                Acc25_total+=Acc25
+                Acc50_total+=Acc50.item()
+                Acc25_total+=Acc25.item()
                 for key in loss_dict:
-                    eval_loss_dict[key]+=loss_dict[key]
-                eval_loss+=total_loss
+                    eval_loss_dict[key]+=loss_dict[key].item()
+                eval_loss+=total_loss.item()
             avg_eval_loss=eval_loss/batch_id
             avg_Acc50=Acc50_total/batch_id
             avg_Acc25=Acc25_total/batch_id
-            tb_logger.add_scalar('Eval/Acc50', avg_Acc50.item(), e)
-            tb_logger.add_scalar('Eval/Acc25', avg_Acc25.item(), e)
+            tb_logger.add_scalar('Eval/Acc50', avg_Acc50, e)
+            tb_logger.add_scalar('Eval/Acc25', avg_Acc25, e)
             for key in eval_loss_dict:
                 eval_loss_dict[key]=eval_loss_dict[key]/batch_id
-                tb_logger.add_scalar('Eval/'+key, eval_loss_dict[key].item(), e)
-        tb_logger.add_scalar("Eval/eval_loss",avg_eval_loss.item(),e)
+                tb_logger.add_scalar('Eval/'+key, eval_loss_dict[key], e)
+        tb_logger.add_scalar("Eval/eval_loss",avg_eval_loss,e)
         model_save_dir = os.path.join(config['other']['model_save_dir'], config['exp_name'])
         checkpoint.register_modules(epoch=e, min_loss=avg_eval_loss)
         if os.path.exists(model_save_dir)==False:

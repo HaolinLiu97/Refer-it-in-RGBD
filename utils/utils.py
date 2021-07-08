@@ -222,7 +222,7 @@ def get_dataloader(cfg,mode):
         elif mode=="test":
             dataset=sunrefer_dataset(cfg,False)
 
-    dataloader=data.DataLoader(dataset=dataset,batch_size=cfg['data']['batch_size'],shuffle=False,num_workers=cfg['data']['num_workers'],drop_last=True,collate_fn=custom_collation_fn)
+    dataloader=data.DataLoader(dataset=dataset,batch_size=cfg['data']['batch_size'],shuffle=True,num_workers=cfg['data']['num_workers'],drop_last=True,collate_fn=custom_collation_fn)
     return dataloader
 
 def get_optimizer(config, net):

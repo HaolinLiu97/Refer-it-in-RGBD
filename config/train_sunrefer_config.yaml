@@ -1,16 +1,16 @@
 resume: False
-weight: checkpoints/sunrefer_pretrain/model_latest.pth
+weight: checkpoints/sunrefer/model_latest.pth
 hm_model_resume: checkpoints/sunrefer_voxel_match_pretrain/model_best.pth
 method: refer
-exp_name: sunrefer
+exp_name: sunrefer_0707
 isTrain: True
 device:
   use_gpu: True
-  gpu_ids: '1'
+  gpu_ids: '2'
 data:
   dataset: sunrefer
   sigma: 0.5
-  debug: True
+  debug: False
   use_color : True
   use_aug: True
   num_points: 20000
@@ -22,10 +22,10 @@ data:
   data_path: ./data/sunrefer_singleRGBD/sunrgbd_pc_bbox_votes_30k_v2
   MAX_DES_LEN: 117
   MAX_NUM_OBJ: 128
-  batch_size: 4
+  batch_size: 14
   num_workers: 8
 model:
-  t: 2
+  t: 1
   alpha: 0.5
   max_nseed: 256
   pcd_in_channels: 3
@@ -40,7 +40,7 @@ optimizer:
 scheduler:
   gamma: 0.2
 visualization:
-  model_vis_interval: 10000
+  model_vis_interval: 1000
 other:
   clean_cache_interval: 100
   nepoch: 100

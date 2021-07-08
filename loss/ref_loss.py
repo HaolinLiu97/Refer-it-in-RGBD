@@ -108,8 +108,8 @@ class ref_loss(nn.Module):
             pseudo_target_mask=point_votes_mask[torch.arange(batch_size)[:,None],pseudo_seed_ind]
             #print(pseudo_target_votes.shape)
             pseudo_seed_gt_votes_reshape=pseudo_target_votes.contiguous().view(batch_size*num_seed,3,3)
-            dist1,_,dist2,_=nn_distance(pseudo_vote_loc_reshape,pseudo_seed_gt_votes_reshape,l1=self.use_vote_l1)
-            pseudo_votes_dist,_=torch.min(dist2,dim=1)
+            _,_,pseudo_dist2,_=nn_distance(pseudo_vote_loc_reshape,pseudo_seed_gt_votes_reshape,l1=self.use_vote_l1)
+            pseudo_votes_dist,_=torch.min(pseudo_dist2,dim=1)
             pseudo_votes_dist=pseudo_votes_dist.view(batch_size,num_seed)
             pseudo_vote_loss=torch.sum(pseudo_votes_dist*pseudo_target_mask.float())/(torch.sum(pseudo_target_mask.float())+1e-6)
             loss_dict["vote_loss"]=vote_loss+pseudo_vote_loss
