@@ -39,6 +39,7 @@ Install MinkowskiEngine, detail can be referred in <a href="https://github.com/N
 Firstly create a new folder named data under the root directory. Download glove word embedding file glove.p in <a href='http://kaldir.vc.in.tum.de/glove.p' target='__blank'> glove.p</a>.
 ### ScanRefer dataset
 The processed data of ScanRefer and ScanNet is in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/EpdaZpFCBNBKsV2LxMhf7ckBQiMSv5g6_dBb0bAV2kYRhQ?e=6fP2ri" target="__blank"> scanrefer data</a>.
+or <a href="https://pan.baidu.com/s/1TPrV5yD6F0EzXLe4mT88ug"> ScanRefer BaiduCloud, code: x2zw </a>.
 <br>
  Unzip and put the scannet_singleRGBD folder under data. There should be several folders inside the scannet_singleRGBD,
  which are pcd, storing the point cloud of single-view RGBD image; pose, the camera extrinsic and intrinsic of each image; bbox, store all gt bounding box; and train/val split referring expression data in two .json file.
@@ -48,8 +49,8 @@ The processing script of how to prepare the data will be released later.
 
 ### SUNRefer dataset
 We recommend to download the preprocessed data for SUNRefer dataset, on which you can train directly.<br>
-The preprocessed data of SUNRefer dataset is released in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/Euyrz75TiEpElKzBxgM_21IB9Y7aMfzlol9vLhVRwiodug?e=b7JRR4" target="__blank"> sunrefer data</a>.
-<br>
+The preprocessed data of SUNRefer dataset is released in <a href="https://cuhko365-my.sharepoint.com/:f:/g/personal/115010192_link_cuhk_edu_cn/Euyrz75TiEpElKzBxgM_21IB9Y7aMfzlol9vLhVRwiodug?e=b7JRR4" target="__blank"> sunrefer data</a>
+or <a href="https://pan.baidu.com/s/1VAg2cXWKfs9IcPKYGacFgQ"> SunRefer BaiduCloud code: rljw </a> <br>
 unzip and create a new folder named sunrefer_singleRGBD under data. Put the SUNREFER_train.pkl, SUNREFER_val.pkl and sunrgbd_pc_bbox_votes_30k_v2 under data/sunrefer_singleRGBD/ <br>
 #### processing the sunrgbd and sunrefer data
 Please refer to the sunrgbd folder for the processing of the sunrgbd data, which is modified from <a href='https://github.com/facebookresearch/votenet/tree/master/sunrgbd' target='__blank'> votenet </a>.
