@@ -73,7 +73,10 @@ def ref_tester(cfg,model_list,loss_func,test_loader,device,checkpoint):
 
             if config['save_vis']==True:
                 batch_size=data_dict["input_point_cloud"].shape[0]
-                scene_id_list=data_dict["scene_id"]
+                if config["data"]["dataset"] == "sunrefer":
+                    unique_id_list=data_dict["image_id"]
+                else:
+                    unique_id_list=data_dict["scene_id"]
                 object_id_list=data_dict["object_id"]
                 ann_id_list=data_dict["ann_id"]
                 image_id_list=data_dict["image_id"]
@@ -87,16 +90,16 @@ def ref_tester(cfg,model_list,loss_func,test_loader,device,checkpoint):
                 pred_intact_bbox = torch.cat([pred_intact_loc, pred_intact_size], dim=1)
 
                 for i in range(batch_size):
-                    scene_id = scene_id_list[i]
+                    unique_id=unique_id_list[i]
                     object_id = object_id_list[i]
                     ann_id = ann_id_list[i]
                     image_id = image_id_list[i]
-                    if scene_id not in output_info:
-                        output_info[scene_id]={}
+                    if unique_id not in output_info:
+                        output_info[unique_id]={}
                     print("processing,scene_id:%s,object id:%s,ann_id:%s,image_id:%s" % (
-                    scene_id, object_id, ann_id, image_id))
-                    if not output_info[scene_id].get(object_id):
-                        output_info[scene_id][object_id] = []
+                    unique_id, object_id, ann_id, image_id))
+                    if not output_info[unique_id].get(object_id):
+                        output_info[unique_id][object_id] = []
                     pack_data = {}
                     pack_data["ann_id"] = ann_id
                     pack_data["sentence"] = data_dict['sentence'][i]
@@ -116,7 +119,7 @@ def ref_tester(cfg,model_list,loss_func,test_loader,device,checkpoint):
                     pack_data["gt_intact_bbox"] = data_dict['intact_gt_bbox'][i].detach().cpu().numpy()
                     pack_data["gt_partial_bbox"] = data_dict['partial_gt_bbox'][i].detach().cpu().numpy()
                     pack_data["pred_conf"]=ret_dict["pred_conf"][i].detach().cpu().numpy()
-                    output_info[scene_id][object_id].append(pack_data)
+                    output_info[unique_id][object_id].append(pack_data)
         for scene_id in output_info:
             if os.path.exists(log_dir) == False:
                 os.makedirs(log_dir)

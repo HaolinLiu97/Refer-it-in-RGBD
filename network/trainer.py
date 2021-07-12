@@ -27,7 +27,6 @@ def voxel_match_trainer(cfg,model,loss_func,optimizer,scheduler,train_loader,tes
     model.train()
 
     min_eval_loss=1000
-    iter=0
     for e in range(0,config['other']['nepoch']):
         print("Switch Phase to Train")
         model.train()
@@ -163,7 +162,7 @@ def ref_trainer(cfg,model_list,loss_func,optimizer_list,scheduler_list,train_loa
     tb_logger = SummaryWriter(log_dir)
 
     max_Acc50=0
-    iter=0
+    iter = train_loader.__len__() * start_epoch
     Acc50_total = 0
     Acc25_total = 0
     for e in range(start_epoch,config['other']['nepoch']):

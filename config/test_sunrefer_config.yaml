@@ -1,9 +1,10 @@
 resume: True
-weight: checkpoints/sunrefer_0707/model_latest.pth
+weight: checkpoints/sunrefer_0707/model_best.pth
 hm_model_resume: checkpoints/sunrefer_voxel_match_pretrain/model_best.pth
 method: refer
-exp_name: sunrefer_0707
-isTrain: True
+exp_name: sunrefer_test
+isTrain: False
+save_vis: True
 device:
   use_gpu: True
   gpu_ids: '2'
@@ -31,14 +32,6 @@ model:
   pcd_in_channels: 3
   pcd_hidden_size: 256
   lang_hidden_size: 256
-optimizer:
-  method: Adam
-  lr_ref: 1e-3
-  lr_hm: 1e-4
-  beta1: 0.9
-  beta2: 0.999
-scheduler:
-  gamma: 0.2
 visualization:
   model_vis_interval: 1000
 other:
