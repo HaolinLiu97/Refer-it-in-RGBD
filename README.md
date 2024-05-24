@@ -4,7 +4,7 @@ This is the repository of our paper 'Refer-it-in-RGBD: A Bottom-up Approach for 
 <br>
 Paper - <a href="https://arxiv.org/pdf/2103.07894" target="__blank">ArXiv - pdf</a> (<a href="https://arxiv.org/abs/2103.07894" target="__blank">abs</a>) 
 <br>
-Project page: https://unclemedm.github.io/Refer-it-in-RGBD/ <br>
+Project page: https://haolinliu97.github.io/Refer-it-in-RGBD <br>
 
 ### Introduction
 We present a novel task of 3D visual grounding in <b>single-view RGB-D images</b> where the referred objects are often only <b>partially scanned</b>. 
@@ -13,7 +13,7 @@ Our approach first fuses the language and the visual features at the bottom leve
 We evaluate the proposed method by comparing to the state-of-the-art methods on both the RGB-D images extracted from the ScanRefer dataset and our newly collected SUN-Refer dataset. Experiments show that our method outperforms the previous methods by a large margin (by 11.1% and 11.2%  Acc@0.5) on both datasets.
 
 ### Dataset
-<a href="https://unclemedm.github.io/Refer-it-in-RGBD/SUNREFER_v2.json">Download SUNREFER_v2 dataset</a><br>
+<a href="https://haolinliu97.github.io/Refer-it-in-RGBD/SUNREFER_v2.json">Download SUNREFER_v2 dataset</a><br>
 SUNREFER dataset contains 38,495 referring expression corresponding to 7,699 objects from SUNRGBD dataset. Here is one example from SUNREFER dataset:
 <p align="center"><img src="docs/dataset_example.png" width="400px"/></p>
 
